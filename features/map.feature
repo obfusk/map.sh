@@ -48,6 +48,19 @@ Feature: map
       """
       \A\S+/test/bar
       \S+/test
+      \S+/test
+      \S+/test
+      \S+/test/some
+      \Z
+      """
+
+  Scenario: correctly sets $path, $abs, $base, $dir, $path_dir, and $abs_dir
+
+    When  I run `map -f 'echo $path,$abs,$base,$dir,$path_base,$path_dir,$abs_dir' some/link`
+    Then  it should succeed
+    And   the last stdout should match:
+      """
+      \A\S+/test/some/file,\S+/test/some/link,link,some,file,\S+/test/some,\S+/test/some
       \Z
       """
 

@@ -24,6 +24,7 @@
   * `-v` prints the expression before evaluating it; only for `map`
   * `-l` maps/filters lines instead of arguments
   * `-0` input lines end with 0 byte, not newline; implies `-l`
+  * `-z` output lines end with 0 byte, not newline; only for `filter`
   * `-f` treats arguments/lines as files, providing the canonical path
     as `$path`, the absolute path as `$abs`, the basename as `$base`,
     the dirname as `$dir`, and the dirnames of the canonical and
@@ -74,10 +75,10 @@ filter '[[ "$it" =~ foo ]]' foo bar food
 # foo
 # food
 
-filter -f '[ -L "$it" ]' some/file some/link | map -l 'echo "$abs"'
+filter '[ -L "$it" ]' some/file some/link | map -fl 'echo "$abs"'
 # /absolute/path/to/some/link
 
-find -type f -print0 | sort -z | filter -f0 '[ "${#it}" == 4 ]'
+find -type f -print0 | sort -z | filter -f0 '[ "${#base}" == 4 ]'
 ```
 
 []: }}}2
