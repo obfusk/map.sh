@@ -61,8 +61,17 @@ map -v 'echo "$it"; echo ${#it}' foo 'bar baz'
 map -f 'echo "$path"' foo bar/baz
 # /canonical/path/to/foo
 # /canonical/path/to/baz
+```
 
+```
+# find files and echo dirname of canonical path
 find -type f -print0 | sort -z | map -f0 'echo "$path_dir"'
+
+# print message for existing files
+map -t 'test -e "$it" && echo "$it exists"' foo bar baz
+
+# run git command in multiple directories, like mgit
+map 'cd "$it"; pwd; git status; echo' *
 ```
 
 []: }}}2
@@ -79,7 +88,10 @@ filter '[[ "$it" =~ foo ]]' foo bar food
 
 filter '[ -L "$it" ]' some/file some/link | map -fl 'echo "$abs"'
 # /absolute/path/to/some/link
+```
 
+```
+# find 4-char files
 find -type f -print0 | sort -z | filter -f0 '[ "${#base}" == 4 ]'
 ```
 
