@@ -1,0 +1,55 @@
+#!/bin/bash
+
+set -e
+opt_v=n opt_l=n opt_0=n opy_f=n
+usage () { echo 'map <option(s)> <expression> [<arg(s)>]'; }
+
+while getopts :vl0fh opt; do                                    # {{{1
+  case "$opt" in
+    v) opt_v=y ;;
+    l) opt_l=y ;;
+    0) opt_l=y opt_0=y ;;
+    f) opt_f=y ;;
+    h) usage; exit ;;
+    ?) echo "invalid option: -$OPTARG" >&2; exit 1 ;;
+  esac
+done                                                            # }}}1
+
+shift "$(( OPTIND - 1 ))"
+[ "$#" -ge 1 ] || { usage >&2; exit 1; }
+expression="$1"; shift
+
+canonpath ()
+{ perl -MFile::Spec -e 'print File::Spec->canonpath($ARGV[0])' "$1"; }
+
+if [ "$opt_v" == y ]; then
+  evaluate () { ( PS4='=> '; eval "set -x; $expression" ); }
+else
+  evaluate () { ( eval "$expression" ); }
+fi
+
+if [ "$opt_f" == y ]; then                                      # {{{1
+  set_vars ()
+  {
+         path="$( readlink -f "$it"   )"
+          abs="$( canonpath   "$it"   )"
+         base="$( basename    "$it"   )"
+          dir="$( dirname     "$it"   )"
+    path_base="$( basename    "$path" )"
+     path_dir="$( dirname     "$path" )"
+      abs_dir="$( dirname     "$abs"  )"
+  }
+else
+  set_vars () { :; }
+fi                                                              # }}}1
+
+run () { set_vars; evaluate; }
+
+if [ "$opt_l" == y ]; then
+  if [ "$opt_0" == y ]; then opts=( -d '' ); else opts=(); fi
+  while read -r "${opts[@]}"; do it="$REPLY"; run; done
+else
+  for it in "$@"; do run; done
+fi
+
+# vim: set tw=70 sw=2 sts=2 et fdm=marker :
