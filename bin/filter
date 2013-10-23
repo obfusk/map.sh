@@ -1,8 +1,19 @@
 #!/bin/bash
 
+# --                                                            ; {{{1
+#
+# File        : filter
+# Maintainer  : Felix C. Stegerman <flx@obfusk.net>
+# Date        : 2013-10-24
+#
+# Copyright   : Copyright (C) 2013  Felix C. Stegerman
+# Licence     : GPLv2
+#
+# --                                                            ; }}}1
+
 set -e
 opt_l=n opt_0=n opt_z=n opy_f=n
-usage () { echo 'filter <option(s)> <expression> [<arg(s)>]'; }
+usage () { echo 'filter [<option(s)>] <expression> [<argument(s)>]'; }
 
 while getopts :l0zfh opt; do                                    # {{{1
   case "$opt" in

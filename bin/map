@@ -1,8 +1,19 @@
 #!/bin/bash
 
+# --                                                            ; {{{1
+#
+# File        : map
+# Maintainer  : Felix C. Stegerman <flx@obfusk.net>
+# Date        : 2013-10-24
+#
+# Copyright   : Copyright (C) 2013  Felix C. Stegerman
+# Licence     : GPLv2
+#
+# --                                                            ; }}}1
+
 set -e
 opt_v=n opt_t=n opt_l=n opt_0=n opy_f=n
-usage () { echo 'map <option(s)> <expression> [<arg(s)>]'; }
+usage () { echo 'map [<option(s)>] <expression> [<argument(s)>]'; }
 
 while getopts :vtl0fh opt; do                                   # {{{1
   case "$opt" in
