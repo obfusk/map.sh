@@ -30,6 +30,8 @@
     the dirname as `$dir`, and the dirnames of the canonical and
     absolute paths as `$path_dir` and `$abs_dir`
 
+#
+
   The canonical path is the result of `readlink -f`: the absolute path
   with all symlinks followed.
 
