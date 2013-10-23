@@ -15,13 +15,13 @@
   map.sh - map/filter for bash
 
   `map` evaluates an expression for arguments, files, or lines;
-  `filter` filters arguments, files, or lines based on the return
-  value of an expression; the expression can refer to its argument as
-  `$it`.
+  `filter` filters arguments, files, or lines based on the exit status
+  of an expression; the expression can refer to its argument as `$it`.
 
   Options:
 
   * `-v` prints the expression before evaluating it; only for `map`
+  * `-t` ignores non-zero exit status; only for `map`
   * `-l` maps/filters lines instead of arguments
   * `-0` input lines end with 0 byte, not newline; implies `-l`
   * `-z` output lines end with 0 byte, not newline; only for `filter`

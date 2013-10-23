@@ -64,4 +64,26 @@ Feature: map
       \Z
       """
 
+  Scenario: fails when command has non-zero exit status
+
+    When  I run `map 'echo "$it"; false' foo bar baz`
+    Then  it should fail
+    And   the last stdout should be:
+      """
+      foo
+
+      """
+
+  Scenario: non-zero exit status can be ignored
+
+    When  I run `map -t 'echo "$it"; false' foo bar baz`
+    Then  it should succeed
+    And   the last stdout should be:
+      """
+      foo
+      bar
+      baz
+
+      """
+
 # vim: set tw=70 sw=2 sts=2 et fdm=marker :

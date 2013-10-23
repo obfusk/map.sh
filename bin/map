@@ -1,12 +1,13 @@
 #!/bin/bash
 
 set -e
-opt_v=n opt_l=n opt_0=n opy_f=n
+opt_v=n opt_t=n opt_l=n opt_0=n opy_f=n
 usage () { echo 'map <option(s)> <expression> [<arg(s)>]'; }
 
-while getopts :vl0fh opt; do                                    # {{{1
+while getopts :vtl0fh opt; do                                   # {{{1
   case "$opt" in
     v) opt_v=y ;;
+    t) opt_t=y ;;
     l) opt_l=y ;;
     0) opt_l=y opt_0=y ;;
     f) opt_f=y ;;
@@ -23,9 +24,15 @@ abspath ()
 { perl -MFile::Spec -e 'print File::Spec->rel2abs($ARGV[0])' "$1"; }
 
 if [ "$opt_v" == y ]; then
-  evaluate () { ( PS4='=> '; eval "set -x; $expression" ); }
+  evaluate () { ( PS4='=> '; eval "set -x; $expression" ) }
 else
-  evaluate () { ( eval "$expression" ); }
+  evaluate () { ( eval "$expression" ) }
+fi
+
+if [ "$opt_t" == y ]; then
+  evaluate_w_status () { set +e; evaluate || true; set -e; }
+else
+  evaluate_w_status () { evaluate; }
 fi
 
 if [ "$opt_f" == y ]; then                                      # {{{1
@@ -43,7 +50,7 @@ else
   set_vars () { :; }
 fi                                                              # }}}1
 
-run () { set_vars; evaluate; }
+run () { set_vars; evaluate_w_status; }
 
 if [ "$opt_l" == y ]; then
   if [ "$opt_0" == y ]; then opts=( -d '' ); else opts=(); fi
