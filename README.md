@@ -2,7 +2,7 @@
 
     File        : README.md
     Maintainer  : Felix C. Stegerman <flx@obfusk.net>
-    Date        : 2013-10-23
+    Date        : 2013-10-24
 
     Copyright   : Copyright (C) 2013  Felix C. Stegerman
     Version     : v0.0.1-SNAPSHOT
@@ -63,7 +63,7 @@ map -f 'echo "$path"' foo bar/baz
 # /canonical/path/to/baz
 ```
 
-```
+```bash
 # find files and echo dirname of canonical path
 find -type f -print0 | sort -z | map -f0 'echo "$path_dir"'
 
@@ -90,7 +90,7 @@ filter '[ -L "$it" ]' some/file some/link | map -fl 'echo "$abs"'
 # /absolute/path/to/some/link
 ```
 
-```
+```bash
 # find 4-char files
 find -type f -print0 | sort -z | filter -f0 '[ "${#base}" == 4 ]'
 ```
