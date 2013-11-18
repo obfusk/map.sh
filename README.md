@@ -2,10 +2,10 @@
 
     File        : README.md
     Maintainer  : Felix C. Stegerman <flx@obfusk.net>
-    Date        : 2013-10-24
+    Date        : 2013-11-18
 
     Copyright   : Copyright (C) 2013  Felix C. Stegerman
-    Version     : v0.0.1-SNAPSHOT
+    Version     : v0.2.0
 
 []: }}}1
 
@@ -32,8 +32,8 @@
 
 #
 
-  The canonical path is the result of `readlink -f`: the absolute path
-  with all symlinks followed.
+  The canonical path is the result of `Cwd::abs_path`: the absolute
+  path with all symlinks followed.
 
 []: }}}1
 

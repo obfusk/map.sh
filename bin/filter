@@ -4,7 +4,7 @@
 #
 # File        : filter
 # Maintainer  : Felix C. Stegerman <flx@obfusk.net>
-# Date        : 2013-10-24
+# Date        : 2013-11-18
 #
 # Copyright   : Copyright (C) 2013  Felix C. Stegerman
 # Licence     : GPLv2
@@ -30,6 +30,9 @@ shift "$(( OPTIND - 1 ))"
 [ "$#" -ge 1 ] || { usage >&2; exit 1; }
 expression="$1"; shift
 
+readlink_f ()
+{ perl -MCwd -e 'print Cwd::abs_path($ARGV[0])' "$1"; }
+
 abspath ()
 { perl -MFile::Spec -e 'print File::Spec->rel2abs($ARGV[0])' "$1"; }
 
@@ -44,7 +47,7 @@ fi
 if [ "$opt_f" == y ]; then                                      # {{{1
   set_vars ()
   {
-         path="$( readlink -f "$it"   )"
+         path="$( readlink_f  "$it"   )"
           abs="$( abspath     "$it"   )"
          base="$( basename    "$it"   )"
           dir="$( dirname     "$it"   )"
